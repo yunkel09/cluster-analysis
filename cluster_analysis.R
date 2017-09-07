@@ -57,7 +57,7 @@
       labs(title = "Duracion de fallas por zonas de Guatemala", x = "",
        subtitle = "01-Junio-2017 al 31-Agosto-2017", y = 'Horas',
        caption = "CONFIDENCIAL") +
-      geom_jitter(width = 0.2) +
+      geom_jitter(width = 0.2, pch = 16, alpha = 0.5) +
       scale_fill_manual(values=c("#999999", "#E69F00", "#56B4E9")) +
       theme(legend.position="bottom")
   
@@ -66,23 +66,24 @@
 #   PARTITIONING                                                            ####
 
   # normalizar los datos
-  osp_scaled     <- osp
-  osp_scaled[-1] <- as.data.frame(scale(osp_scaled[-1]))
-  
-  # convertir a factor departamento
-  osp_scaled$departamento %<>% as.factor
+  fallas_scaled      <- fallas.1
+  fallas_scaled[-1] <- as.data.frame(scale(fallas_scaled[-1]))
   
 ##  ............................................................................
 ##  K-MEANS                                                                 ####
  
-  colores <- c('snow3', 'steelblue', 'thistle3', 'yellow1', 'tomato',
-               'tan4', 'beige','blueviolet', 'chocolate4', 'cyan2', 'coral2',
-               'cadetblue', 'cornsilk4', 'darkgray', 'darkred', 'goldenrod',
-               'deeppink', 'gold3', 'red', 'blue', 'yellow', 'green')
+  colores <- c('steelblue', 'yellow1', 'tomato')
   
-  pairs.panels(x = osp_scaled[-1], gap = 0, bg = colores[osp_scaled$departamento], pch = 21)
+  pairs.panels(x   = fallas_scaled[-1],
+               gap = 0, 
+               bg  = colores[fallas_scaled$zona],
+               pch = 21, hist.col = 'gold1')
+  
+  # notas: observamos una alta correlacion entre
   
   
-  
+  # distance matrix
+  distance <- dist(fallas_scaled[-1])
+  print(distance, digits = 2)  
   
   
